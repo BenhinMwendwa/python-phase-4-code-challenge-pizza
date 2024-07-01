@@ -3,6 +3,7 @@
 from app import app
 from models import db, Restaurant, Pizza, RestaurantPizza
 
+
 with app.app_context():
 
     # This will delete any existing rows
@@ -19,7 +20,7 @@ with app.app_context():
     restaurants = [shack, bistro, palace]
 
     print("Creating pizzas...")
-
+    
     cheese = Pizza(name="Emma", ingredients="Dough, Tomato Sauce, Cheese")
     pepperoni = Pizza(
         name="Geri", ingredients="Dough, Tomato Sauce, Cheese, Pepperoni")
@@ -28,6 +29,8 @@ with app.app_context():
     pizzas = [cheese, pepperoni, california]
 
     print("Creating RestaurantPizza...")
+    
+    
 
     pr1 = RestaurantPizza(restaurant=shack, pizza=cheese, price=1)
     pr2 = RestaurantPizza(restaurant=bistro, pizza=pepperoni, price=4)
