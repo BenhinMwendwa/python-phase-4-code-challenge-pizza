@@ -30,21 +30,21 @@ def index():
     body = {'message': 'Challenge'}
     return make_response(body)
 
-@app.route('/restaurants')
+@app.route('/restaurants', methods=['GET'])
 def restaurants():
+    
     restaurants = Restaurant.query.all()
     body = [restaurant.to_dict() for restaurant in restaurants]
     return jsonify(body), 200
-@app.route('/restaurants/<int:id>')
+@app.route('/restaurants/<int:id>',methods=['GET'])
 def get_restaurant_by_id(id):
     restaurant = Restaurant.query.filter_by(id=id).first()
-    if restaurant:
-        body = restaurant.to_dict()
-        status=200
+    if restaurant is None:
+        return jsonify({"error":"Restaurant not found"}), 404
     else:
-        body = {'message': f'Restaurant {id} not found.'}
-        status = 404
-    return jsonify(body), status
+        body = restaurant.to_dict()
+        return jsonify(body), 200
+       
 
 
 @app.route('/restaurants/<int:id>', methods=['DELETE'])
@@ -60,11 +60,11 @@ def delete_restaurant(id):
 @app.route('/pizzas', methods=['GET'])
 def get_pizzas():
     pizzas = Pizza.query.all()
-    return jsonify([p.to_dict(only=('id', 'name', 'ingredients')) for p in pizzas])
+    return jsonify([p.to_dict(only=('id', 'name', 'ingredients')) for p in pizzas]),200
 
 
 @app.route('/restaurants/<int:restaurant_id>/pizzas', methods=['POST'])
-def add_pizza_to_restaurant(restaurant_id):
+def create_restaurant_pizza(restaurant_id):
     restaurant = Restaurant.query.filter_by(id=restaurant_id).first()
     if restaurant:
         pizza_name = request.json.get('name')

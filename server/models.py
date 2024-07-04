@@ -55,6 +55,7 @@ class Pizza(db.Model, SerializerMixin):
             'id': self.id,
             'name': self.name,
             'ingredients': self.ingredients
+            
         }
 
     def __repr__(self):
